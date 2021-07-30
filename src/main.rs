@@ -1,6 +1,5 @@
 use discord::model::{Event, ReactionEmoji};
 use discord::Discord;
-use std::env;
 use urlencoding::encode;
 use std::fs::File;
 use std::path::Path;
@@ -32,8 +31,8 @@ fn main() {
 
     let mut name = load_equation(&equations);
 
-    // Log in to Discord using a bot token from the environment
-    let discord = Discord::from_bot_token(&env::var("DISCORD_TOKEN").expect("Expected token"))
+    let token = std::fs::read_to_string("token.txt").expect("could not read token");
+    let discord = Discord::from_bot_token(&*token)
         .expect("login failed");
 
     // Establish and use a websocket connection
